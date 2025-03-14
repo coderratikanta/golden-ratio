@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Ratio Checker</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .input-container label {
+            margin-bottom: 5px;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #object-display {
+            width: 200px; /* Default width */
+            height: 100px; /* Default height */
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <label for="width">Width:</label>
+        <input type="number" id="width" value="200">
+    </div>
+    <div class="input-container">
+        <label for="height">Height:</label>
+        <input type="number" id="height" value="100">
+    </div>
+    <button onclick="checkGoldenRatio()">Check Ratio</button>
+
+    <div id="object-display"></div>
+
+    <div class="result-container">
+        <p id="ratio-result"></p>
+        <p id="beauty-result"></p>
+    </div>
+
+    <script>
+        function checkGoldenRatio() {
+            const width = parseFloat(document.getElementById('width').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const objectDisplay = document.getElementById('object-display');
+
+            objectDisplay.style.width = width + 'px';
+            objectDisplay.style.height = height + 'px';
+
+            if (width > 0 && height > 0) {
+                const ratio = width / height;
+                const goldenRatio = 1.6180339887;
+                const difference = Math.abs(ratio - goldenRatio);
+                const percentageDifference = (difference / goldenRatio) * 100;
+
+                document.getElementById('ratio-result').textContent = `Ratio: ${ratio.toFixed(3)}, Golden Ratio: ${goldenRatio.toFixed(3)}, Difference: ${percentageDifference.toFixed(2)}%`;
+
+                // Simple "beauty" calculation based on how close to the golden ratio.
+                let beautyScore = 100 - (percentageDifference * 2); // Simple linear decrease
+                if(beautyScore < 0){
+                  beautyScore = 0;
+                }
+                document.getElementById('beauty-result').textContent = `Beauty Score: ${beautyScore.toFixed(2)}/100`;
+
+            } else {
+                document.getElementById('ratio-result').textContent = "Please enter valid dimensions.";
+                document.getElementById('beauty-result').textContent = "";
+            }
+        }
+    </script>
+</body>
+</html>
